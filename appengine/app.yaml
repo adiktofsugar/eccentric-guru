@@ -1,0 +1,12 @@
+---
+application: eccentric-guru
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /media
+  static_dir: media
+- url: .*
+  script: main.app

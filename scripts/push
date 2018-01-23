@@ -1,0 +1,7 @@
+#!/bin/bash
+set -eu -o pipefail
+project_root=$(cd `dirname ${BASH_SOURCE[0]}`; cd ..; pwd)
+echo "build media"
+$project_root/scripts/build
+echo "update appengine"
+appcfg.py update appengine

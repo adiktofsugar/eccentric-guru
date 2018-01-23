@@ -1,0 +1,5 @@
+#!/bin/bash
+set -eu -o pipefail
+project_root=$(cd `dirname ${BASH_SOURCE[0]}`; cd ..; pwd)
+args="-b $@"
+$project_root/start.js
