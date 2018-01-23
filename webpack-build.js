@@ -3,6 +3,8 @@ var path = require('path');
 var webpack = require('webpack');
 var WebpackDevServer = require("webpack-dev-server");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var WebpackAssetsManifest = require("webpack-assets-manifest");
 
 var isProd = process.env['NODE_ENV'] == 'production';
 
@@ -32,10 +34,14 @@ var app = webpack({
     devtool: 'source-map',
     output: {
         path: OUTPUT_DIR,
-        filename: 'js/app.js'
+        filename: 'js/app.[hash].js'
     },
     plugins: [
         new webpack.NoErrorsPlugin(),
+        new ExtractTextPlugin('css/style.[contenthash].css'),
+        new WebpackAssetsManifest({
+          // Options go here 
+        }),
         new CopyWebpackPlugin([{
             from: 'images', 
             to: 'images/'}]),
@@ -55,11 +61,11 @@ var app = webpack({
         loaders: [
             {
                 test: /\.less$/,
-                loaders: ['style-loader', 'css-loader', 'less-loader']
+                loader: ExtractTextPlugin.extract('style-loader', ['css-loader', 'less-loader'])
             },
             {
                 test: /\.css$/,
-                loaders: ['style-loader', 'css-loader']
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             },
             {
                 test: /\.js$/,
